@@ -1,0 +1,18 @@
+{% extends './base.html' %}
+
+{% block title %}
+    
+{% endblock %}
+
+
+{% block content %}
+    <ul class="bg-gray-100 rounded-lg shadow-lg p-4 max-w-xs mt-5 ">
+        {% for key, value in titles %}
+            <li class="mb-3">
+                <a href="{% url 'append_to_book' title=value %}" class="block py-3 px-5 bg-blue-500 text-white font-bold text-center rounded-lg hover:bg-blue-600 active:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    {{ key }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends './base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+{% endblock %}
+
+{% block title %}
+    Главная
+{% endblock %}
+
+
+{% block content %}
+
+<div class="flex flex-col">
+    <div class="flex justify-between items-center flex-wrap gap-4 mb-6">
+        <a href="{% url 'append_record' %}" class="bg-blue-600 text-white rounded-xl px-4 py-2 hover:bg-blue-700 transition">
+            Добавить запись +
+        </a>
+        
+        <form method="get" class="flex items-center gap-2">
+            <input type="date" name="start_date" value="{{ request.GET.start_date }}" class="border rounded px-3 py-2" />
+            <span class="text-gray-500">—</span>
+            <input type="date" name="end_date" value="{{ request.GET.end_date }}" class="border rounded px-3 py-2" />
+            <button type="submit" class="bg-blue-700 text-white rounded px-4 py-2 hover:bg-gray-800 transition">
+                Фильтровать
+            </button>
+        </form>
+    </div>
+    
+    <table class="min-w-full divide-y divide-gray-200 shadow-lg rounded-lg overflow-hidden">
+        <thead class="bg-blue-600 text-white">
+            <tr>
+                <th><a href="?sort=id">id</a></th>
+                <th><a href="?sort=date">Дата</a></th>
+                <th><a href="?sort=status">Статус</a></th>
+                <th><a href="?sort=type">Тип</a></th>
+                <th><a href="?sort=category">Категория</a></th>
+                <th><a href="?sort=subcategory">Подкатегория</a></th>
+                <th><a href="?sort=amount">Сумма</a></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for record in records %}
+            <tr class="hover:bg-blue-50 cursor-pointer" onclick="window.location.href='{{ record.get_absolute_url }}';">
+                <td class="px-4 py-2">{{ record.id }}</td>
+                <td class="px-4 py-2">{{ record.date }}</td>
+                <td class="px-4 py-2">{{ record.status }}</td>
+                <td class="px-4 py-2">{{ record.type }}</td>
+                <td class="px-4 py-2">{{ record.category }}</td>
+                <td class="px-4 py-2">{{ record.subcategory }}</td>
+                <td class="px-4 py-2">{{ record.amount }} р</td>
+                
+                <td class="px-4 py-2"><a href="{% url 'delete_record' record.id %}" class="text-red-500 hover:underline">Удалить</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
